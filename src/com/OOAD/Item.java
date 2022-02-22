@@ -58,6 +58,13 @@ class Vinyl extends Music {
     }
 }
 
+class Cassette extends Music { //new added for proj 3
+    Cassette() {
+        super();
+        itemType = ItemType.CASSETTE;
+    }
+}
+
 abstract class Players extends Item {
 }
 
@@ -79,6 +86,13 @@ class MP3 extends Players {
     MP3() {
         super();
         itemType = ItemType.MP3;
+    }
+}
+
+class CassettePlayer extends Players { //added proj_3
+    CassettePlayer() {
+        super();
+        itemType = ItemType.CASSETTEPLAYER;
     }
 }
 
@@ -189,6 +203,14 @@ class Cables extends Accessories {
         itemType = ItemType.CABLES;
     }
 }
+
+class GigBag extends Accessories { //ADDED proj_3
+    GigBag() {
+        super();
+        itemType = ItemType.GIGBAG;
+    }
+}
+
 
 class Strings extends Accessories {
     String stringType;
