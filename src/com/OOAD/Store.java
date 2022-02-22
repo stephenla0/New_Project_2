@@ -20,6 +20,7 @@ public class Store implements Logger {
         clerks = new ArrayList<Clerk>();
         clerks.add(new Clerk("Velma",.05, this));
         clerks.add(new Clerk("Shaggy", .20, this));
+        clerks.add(new Clerk("Daphne", .15, this)); //An additional Clerk will be hired – Daphne.
     }
 
     void openToday(int day) {
