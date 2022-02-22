@@ -151,6 +151,18 @@ class Harmonica extends Wind {
     }
 }
 
+class Saxophone extends Wind {
+    String type;
+    String[] types = {"Sopranino", "Soprano", "Alto", "Tenor", "Baritone", "Bass"};
+
+    Saxophone() {
+        super();
+        type = types[Utility.rndFromRange(0,types.length-1)];
+        itemType = ItemType.SAXOPHONE;
+    }
+}
+
+
 abstract class Clothing extends Item {
 }
 
