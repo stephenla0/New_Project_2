@@ -15,7 +15,7 @@ public interface Utility {
     static int getPoisson(int min, int max, double mean)
     {
         PoissonDistribution p = new PoissonDistribution(mean);
-        return p.sample();
+        return 2 + p.sample();
     }
 
     static double rnd() {
