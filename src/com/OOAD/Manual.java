@@ -9,6 +9,6 @@ public class Manual implements TuneStrategy {
 	@Override
 	public void tune()
 	{
-		out.("Tuned");
+		//out.("Tuned");
 	}
 }
