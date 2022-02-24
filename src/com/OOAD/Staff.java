@@ -117,7 +117,7 @@ class Clerk extends Staff implements Logger {
     }
 
     void openTheStore() {
-        int buyers = Utility.rndFromRange(4,10);
+        int buyers = Utility.getPoisson(4,10,3);
         //int buyers = Utility.getPoisson(4,10,3);
         int sellers = Utility.rndFromRange(1,4);
         int sold = 0;
