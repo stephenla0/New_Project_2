@@ -1,5 +1,5 @@
 package com.OOAD;
-import java.lang.Object.org.apache.commons.math3.distribution.AbstractIntegerDistribution;
+//import java.lang.Object.org.apache.commons.math3.distribution.AbstractIntegerDistribution;
 import java.text.NumberFormat;
 import java.util.Random;
 
@@ -12,11 +12,11 @@ public interface Utility {
         return (int) ((Math.random() * ((max+1) - min)) + min);
     }
     
-    static int getPoisson(int min, int max, double mean)
+    /*static int getPoisson(int min, int max, double mean)
     {
         PoissonDistribution p = new PoissonDistribution(mean);
         return 2 + p.sample();
-    }
+    }*/
 
     static double rnd() {
         return Math.random();
