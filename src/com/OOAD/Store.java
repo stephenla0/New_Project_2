@@ -8,6 +8,7 @@ public class Store implements Logger {
     public double cashFromBank;
     public Inventory inventory;
     public int today;
+    ClerkObserver observer;
 
     Store() {
         // initialize the store's starting inventory
@@ -17,10 +18,11 @@ public class Store implements Logger {
         cashFromBank = 0;   // no cash from bank yet
 
         // initialize the store's staff
+        observer = new ClerkObserver();
         clerks = new ArrayList<Clerk>();
-        clerks.add(new Clerk("Velma",.05, this));
-        clerks.add(new Clerk("Shaggy", .20, this));
-        clerks.add(new Clerk("Daphne", .15, this)); //An additional Clerk will be hired – Daphne.
+        clerks.add(new Clerk("Velma",.05, this, observer));
+        clerks.add(new Clerk("Shaggy", .20, this, observer));
+        clerks.add(new Clerk("Daphne", .15, this, observer)); //An additional Clerk will be hired – Daphne.
     }
 
     void openToday(int day) {

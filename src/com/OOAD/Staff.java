@@ -1,8 +1,10 @@
 package com.OOAD;
 
 import java.util.Iterator;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
-public abstract class Staff {
+public abstract class Staff{
     String name;    // Velma and Shaggy
 }
 
@@ -10,15 +12,27 @@ class Clerk extends Staff implements Logger {
     int daysWorked;
     double damageChance;    // Velma = .05, Shaggy = .20
     Store store;
+    private PropertyChangeSupport support;
 
-    Clerk(String name, double damageChance, Store store) {
+    Clerk(String name, double damageChance, Store store, PropertyChangeListener pcl) {
          this.name = name;
          this.damageChance = damageChance;
          this.store = store;
          daysWorked = 0;
+         support = new PropertyChangeSupport(this);
+         support.addPropertyChangeListener(pcl);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
     }
 
     void arriveAtStore() {
+        support.firePropertyChange("arriveAtStore_evt_1", null, this.name);
         out(this.name + " arrives at store.");
         // have to check for any arriving items slated for this day
         out( this.name + " checking for arriving items.");
@@ -26,17 +40,22 @@ class Clerk extends Staff implements Logger {
         // with a simple for loop - you need to use an iterator
         // https://www.java67.com/2014/03/2-ways-to-remove-elementsobjects-from-ArrayList-java.html#:~:text=There%20are%20two%20ways%20to,i.e.%20remove(Object%20obj).
         Iterator<Item> itr = store.inventory.arrivingItems.iterator();
+        int count = 0;
         while (itr.hasNext()) {
             Item item = itr.next();
             if (item.dayArriving == store.today) {
                 out( this.name + " putting a " + item.itemType.toString().toLowerCase() + " in inventory.");
                 store.inventory.items.add(item);
                 itr.remove();
+                count++;
             }
         }
+        support.firePropertyChange("arriveAtStore_evt_2", null, count);
+
     }
 
     void checkRegister() {
+        support.firePropertyChange("checkRegister_evt_1", null, Utility.asDollar(store.cashRegister));
         out(this.name + " checks: "+Utility.asDollar(store.cashRegister)+" in register.");
         if (store.cashRegister<75) {
             out("Cash register is low on funds.");
@@ -48,6 +67,7 @@ class Clerk extends Staff implements Logger {
         out(this.name + " gets money from the bank.");
         store.cashRegister += 1000;
         store.cashFromBank += 1000;
+        support.firePropertyChange("goToBank_evt_1", null, Utility.asDollar(store.cashRegister));
         this.checkRegister();
     }
 
@@ -62,6 +82,8 @@ class Clerk extends Staff implements Logger {
         }
         int count = store.inventory.items.size();
         double worth = store.inventory.getValue(store.inventory.items);
+        support.firePropertyChange("doInventory_evt_1", null, count);
+        support.firePropertyChange("doInventory_evt_2", null, Utility.asDollar(worth));
         out(this.name + " finds " + count + " items in store, worth "+Utility.asDollar(worth));
     }
 
@@ -77,29 +99,47 @@ class Clerk extends Staff implements Logger {
         }
         else {
             // order 3 of the missing items if you have the money to buy them
+            int purchased = 0;
             for (int i = 0; i < 3; i++) {
                 Item item = store.inventory.makeNewItemByType(type);
                 if (store.cashRegister > item.purchasePrice) {
                     out(this.name + " ordered a " + item.itemType.toString().toLowerCase());
                     item.dayArriving = store.today + arrivalDay;
                     store.inventory.arrivingItems.add(item);
+                    purchased++;
                 }
                 else {
                     out("Insufficient funds to order this item.");
                 }
             }
+            support.firePropertyChange("placeAnOrder_evt_1", null, purchased);
         }
     }
 
     void openTheStore() {
-        //int buyers = Utility.rndFromRange(4,10);
         int buyers = Utility.getPoisson(4,10,3);
+        //int buyers = Utility.getPoisson(4,10,3);
         int sellers = Utility.rndFromRange(1,4);
+        int sold = 0;
+        int purchased = 0;
+        boolean success;
         out(buyers + " buyers, "+sellers+" sellers today.");
-        for (int i = 1; i <= buyers; i++) this.sellAnItem(i);
-        for (int i = 1; i <= sellers; i++) this.buyAnItem(i);
+        for (int i = 1; i <= buyers; i++){
+            success = this.sellAnItem(i);
+            if(success){
+                sold++;
+            }
+        }
+        support.firePropertyChange("openTheStore_evt_1", null, sold);
+        for (int i = 1; i <= sellers; i++){
+            success = this.buyAnItem(i);
+            if(success){
+                purchased++;
+            }
+        }
+        support.firePropertyChange("openTheStore_evt_2", null, purchased);
     }
-    void sellAnItem(int customer) {
+    boolean sellAnItem(int customer) {
         String custName = "Buyer "+customer;
         out(this.name+" serving "+custName);
         ItemType type = Utility.randomEnum(ItemType.class);
@@ -108,6 +148,7 @@ class Clerk extends Staff implements Logger {
         // if no items - bye
         if (countInStock == 0) {
             out (custName + " leaves, no items in stock.");
+            return false;
         }
         else {
             // pick one of the types of items from inventory
@@ -118,6 +159,7 @@ class Clerk extends Staff implements Logger {
             out (this.name+" selling at "+Utility.asDollar(item.listPrice));
             if (Utility.rnd()>.5) {
                 sellItemtoCustomer(item, custName);
+                return true;
             }
             else {
                 // if not, clerk offers 10% off listPrice
@@ -127,9 +169,11 @@ class Clerk extends Staff implements Logger {
                 if (Utility.rnd()>.25) {
                     item.listPrice = newListPrice;
                     sellItemtoCustomer(item,custName);
+                    return true;
                 }
                 else {
                     out(custName + " wouldn't buy item.");
+                    return false;
                 }
             }
         }
@@ -163,7 +207,7 @@ class Clerk extends Staff implements Logger {
         return null;
     }
 
-    void buyAnItem(int customer) {
+    boolean buyAnItem(int customer) {
         String custName = "Seller "+customer;
         out(this.name+" serving "+custName);
         ItemType type = Utility.randomEnum(ItemType.class);
@@ -177,6 +221,7 @@ class Clerk extends Staff implements Logger {
         out (this.name+" offers "+Utility.asDollar(item.purchasePrice));
         if (Utility.rnd()>.5) {
             buyItemFromCustomer(item, custName);
+            return true;
         }
         else {
             // if not, clerk will add 10% to purchasePrice
@@ -185,9 +230,11 @@ class Clerk extends Staff implements Logger {
             // seller has 75% chance of selling
             if (Utility.rnd()>.25) {
                 buyItemFromCustomer(item, custName);
+                return true;
             }
             else {
                 out(custName + " wouldn't sell item.");
+                return false;
             }
         }
     }
@@ -218,9 +265,11 @@ class Clerk extends Staff implements Logger {
     void cleanTheStore() {
         out(this.name + " is cleaning up the store.");
         if (Utility.rnd()>this.damageChance) {
+            support.firePropertyChange("cleanTheStore_evt_1", null, 2);
             out(this.name + " doesn't break anything.");
         }
         else {
+            support.firePropertyChange("cleanTheStore_evt_1", null, 1);
             out(this.name + " breaks something!");
             // reduce the condition for a random item
             // take the item off the main inventory and put it on the broken items ArrayList
@@ -228,6 +277,7 @@ class Clerk extends Staff implements Logger {
         }
     }
     void leaveTheStore() {
+        support.firePropertyChange("leaveTheStore_evt_1", null, this.name);
         out(this.name + " locks up the store and leaves.");
     }
 }
