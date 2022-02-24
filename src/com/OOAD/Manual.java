@@ -1,14 +1,9 @@
 package com.OOAD;
 
 public class Manual implements TuneStrategy {
-	public Manual()
-	{
-	}
-
-
 	@Override
-	public void tune()
+	public double tune()
 	{
-		//out.("Tuned");
+		return 0.5;
 	}
 }

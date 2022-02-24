@@ -1,14 +1,9 @@
 package com.OOAD;
 
 public class Haphazard implements TuneStrategy {
-	public Haphazard()
-	{
-	}
-
-
 	@Override
-	public void tune()
+	public double tune()
 	{
-		//out.("Tuned");
+		return 0.2;
 	}
 }

@@ -13,14 +13,18 @@ class Clerk extends Staff implements Logger {
     double damageChance;    // Velma = .05, Shaggy = .20
     Store store;
     private PropertyChangeSupport support;
+    double tuneodds;
 
-    Clerk(String name, double damageChance, Store store, PropertyChangeListener pcl) {
+    Clerk(String name, double damageChance, Store store, PropertyChangeListener pcl, double tuneresult) {
          this.name = name;
          this.damageChance = damageChance;
          this.store = store;
          daysWorked = 0;
          support = new PropertyChangeSupport(this);
          support.addPropertyChangeListener(pcl);
+         this.tuneodds=tuneresult;
+        System.out.println(this.name + " Tune odds:");
+         System.out.println(this.tuneodds);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {

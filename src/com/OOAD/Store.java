@@ -9,6 +9,8 @@ public class Store implements Logger {
     public Inventory inventory;
     public int today;
     ClerkObserver observer;
+    TuneContext context;
+    double tuneresult;
 
     Store() {
         // initialize the store's starting inventory
@@ -20,9 +22,15 @@ public class Store implements Logger {
         // initialize the store's staff
         observer = new ClerkObserver();
         clerks = new ArrayList<Clerk>();
-        clerks.add(new Clerk("Velma",.05, this, observer));
-        clerks.add(new Clerk("Shaggy", .20, this, observer));
-        clerks.add(new Clerk("Daphne", .15, this, observer)); //An additional Clerk will be hired – Daphne.
+        context = new TuneContext(new Manual());
+        tuneresult = context.gettune();
+        clerks.add(new Clerk("Velma",.05, this, observer, tuneresult));
+        context = new TuneContext(new Haphazard());
+        tuneresult = context.gettune();
+        clerks.add(new Clerk("Shaggy", .20, this, observer, tuneresult));
+        context = new TuneContext(new Electronic());
+        tuneresult = context.gettune();
+        clerks.add(new Clerk("Daphne", .15, this, observer, tuneresult)); //An additional Clerk will be hired – Daphne.
     }
 
     void openToday(int day) {

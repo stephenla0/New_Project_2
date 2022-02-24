@@ -1,15 +1,9 @@
 package com.OOAD;
 
 public class Electronic implements TuneStrategy {
-
-	public Electronic()
-	{
-	}
-
-
 	@Override
-	public void tune()
+	public double tune()
 	{
-		//out.("Tuned");
+		return 0;
 	}
 }

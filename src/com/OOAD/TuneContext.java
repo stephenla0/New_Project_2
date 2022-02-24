@@ -7,8 +7,8 @@ public class TuneContext{
 		this.strategy = strategy;
 	}
 
-	public void tune() {
-		this.strategy.tune();
+	public double gettune() {
+		return strategy.tune();
 	}
 
 }
