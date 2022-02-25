@@ -23,8 +23,6 @@ class Clerk extends Staff implements Logger {
          support = new PropertyChangeSupport(this);
          support.addPropertyChangeListener(pcl);
          this.tuneodds=tuneresult;
-        System.out.println(this.name + " Tune odds:");
-         System.out.println(this.tuneodds);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -83,6 +81,13 @@ class Clerk extends Staff implements Logger {
             if (numItems == 0) {
                 this.placeAnOrder(type);
             }
+        }
+
+        if(Utility.rnd()>this.tuneodds){
+
+        }
+        else{
+
         }
         int count = store.inventory.items.size();
         double worth = store.inventory.getValue(store.inventory.items);
@@ -270,14 +275,23 @@ class Clerk extends Staff implements Logger {
         out(this.name + " is cleaning up the store.");
         if (Utility.rnd()>this.damageChance) {
             support.firePropertyChange("cleanTheStore_evt_1", null, 2);
-            out(this.name + " doesn't break anything.");
+            out(this.name + " doesn't damage anything.");
         }
         else {
             support.firePropertyChange("cleanTheStore_evt_1", null, 1);
-            out(this.name + " breaks something!");
+            out(this.name + " damages something!");
             // reduce the condition for a random item
             // take the item off the main inventory and put it on the broken items ArrayList
             // left as an exercise to the reader :-)
+            Item randitem = store.inventory.getRandomItem();
+            boolean broken = randitem.damageAnItem(randitem);
+            out("A " + randitem.itemType.toString().toLowerCase() + " has new list price: " + Utility.asDollar(randitem.listPrice));
+            if (broken){
+                out("A " + randitem.itemType.toString().toLowerCase() + " was broken!");
+                store.inventory.items.remove(randitem.currentIndexForDeletion);
+                store.inventory.discardedItems.add(randitem);
+            }
+
         }
     }
     void leaveTheStore() {

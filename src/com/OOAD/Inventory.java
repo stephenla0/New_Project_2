@@ -104,4 +104,11 @@ public class Inventory implements Logger {
         return index;
     }
 
+    Item getRandomItem(){
+        int index = Utility.rndFromRange(0,items.size() - 1);
+        Item it = items.get(index);
+        it.currentIndexForDeletion = index;
+        return it;
+    }
+
 }

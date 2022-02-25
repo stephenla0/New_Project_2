@@ -4,6 +4,6 @@ public class Electronic implements TuneStrategy {
 	@Override
 	public double tune()
 	{
-		return 0;
+		return 1;
 	}
 }

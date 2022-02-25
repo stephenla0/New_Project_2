@@ -10,9 +10,18 @@ public abstract class Item implements Logger {
     double salePrice;       // set when sold
     int daySold;            // set when sold
     ItemType itemType;      // set by subclass constructors
+    int currentIndexForDeletion;
 
-    void damageAnItem(Item i) {
-
+    boolean damageAnItem(Item i) {
+        int currLevel = i.condition.getLevel();
+        if (currLevel == 1){
+            return true;
+        }
+        else{
+            i.condition.setLevel(currLevel--);
+            i.listPrice = i.listPrice * 0.8;
+            return false;
+        }
     }
 
     Item() {

@@ -4,6 +4,6 @@ public class Haphazard implements TuneStrategy {
 	@Override
 	public double tune()
 	{
-		return 0.2;
+		return 0.8;
 	}
 }
