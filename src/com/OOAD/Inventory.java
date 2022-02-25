@@ -12,14 +12,17 @@ public class Inventory implements Logger {
     public ArrayList<Item> arrivingItems;
     public ArrayList<Item> soldItems;
     public ArrayList<Item> discardedItems;
+    public ArrayList<ItemType> discontinuedItems;
 
     Inventory() {
         items = new ArrayList<>();
         arrivingItems = new ArrayList<>();
         soldItems = new ArrayList<>();
         discardedItems = new ArrayList<>();
+        discontinuedItems = new ArrayList<>();
 
         initializeInventory(items);
+        initializeDiscontinuedItems(discontinuedItems);
     }
 
     void initializeInventory(ArrayList<Item> list) {
@@ -29,6 +32,12 @@ public class Inventory implements Logger {
                 list.add(item);
             }
         }
+    }
+
+    void initializeDiscontinuedItems(ArrayList<ItemType> list) {
+        list.add(ItemType.HATS);
+        list.add(ItemType.SHIRTS);
+        list.add(ItemType.BANDANAS);
     }
 
     // as I showed in Piazza posts, there are fancier ways to do this with newInstance
@@ -111,4 +120,8 @@ public class Inventory implements Logger {
         return it;
     }
 
+    int getIndex(Item item){
+        int index = items.indexOf(item);
+        return index;
+    }
 }

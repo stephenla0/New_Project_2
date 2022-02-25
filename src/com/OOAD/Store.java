@@ -49,15 +49,20 @@ public class Store implements Logger {
     Clerk getValidClerk() {
         // pick a random clerk
         Clerk clerk = clerks.get(Utility.rndFromRange(0,clerks.size()-1));
+        Clerk sickclerk = null;
+        if(Utility.rnd()<0.1){
+            sickclerk = clerk;
+        }
+
         // if they are ok to work, set days worked on other clerks to 0
-        if (clerk.daysWorked < 3) {
+        if ((sickclerk == null) && (clerk.daysWorked < 3)) {
             clerk.daysWorked += 1;
             for (Clerk other: clerks) {
                 if (other != clerk) other.daysWorked = 0; // they had a day off, so clear their counter
             }
         }
         // if they are not ok to work, set their days worked to 0 and get another clerk
-        else {
+        else if ((sickclerk == null) && (clerk.daysWorked >= 3)){
             out(clerk.name+" has worked maximum of 3 days in a row.");
             clerk.daysWorked = 0;   // they can't work, get another clerk
             for (Clerk other: clerks) {
@@ -66,6 +71,23 @@ public class Store implements Logger {
                     break;
                 }
             }
+            for (Clerk others: clerks) {
+                if (others != clerk) others.daysWorked = 0; // they had a day off, so clear their counter
+            }
+        }
+
+        else {
+            out(clerk.name+" is sick today and can not work.");
+            clerk.daysWorked = 0;
+            for (Clerk other: clerks) {
+                if ((other != clerk) && (other.daysWorked < 3)) {
+                    clerk = other;
+                    break;
+                }
+            }
+            for (Clerk others: clerks) {
+                if (others != clerk) others.daysWorked = 0; // they had a day off, so clear their counter
+            }
         }
         return clerk;
     }
@@ -73,4 +95,5 @@ public class Store implements Logger {
     void closedToday(int day) {
         out("Store is closed today, day "+day);
     }
+
 }

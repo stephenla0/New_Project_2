@@ -11,6 +11,8 @@ public abstract class Item implements Logger {
     int daySold;            // set when sold
     ItemType itemType;      // set by subclass constructors
     int currentIndexForDeletion;
+    boolean tunable;
+    tunableType tuneType;
 
     boolean damageAnItem(Item i) {
         int currLevel = i.condition.getLevel();
@@ -33,6 +35,8 @@ public abstract class Item implements Logger {
         condition = Utility.randomEnum(Condition.class);
         salePrice = 0;
         daySold = 0;
+        tunable = false;
+        tuneType = tunableType.NONE;
     }
 }
 
@@ -79,6 +83,8 @@ abstract class Players extends Item {
     Players() {
         super();
         equalized=false;
+        tunable=true;
+        tuneType = tunableType.PLAYERS;
     }
 }
 
@@ -120,6 +126,8 @@ abstract class Stringed extends Instrument {
         super();
         isElectric = (Utility.rnd()>.5); // coin flip for electric or acoustic
         tuned=false;
+        tunable=true;
+        tuneType = tunableType.STRINGED;
     }
 }
 
@@ -147,6 +155,8 @@ abstract class Wind extends Instrument {
     Wind() {
         super();
         adjusted=false;
+        tunable=true;
+        tuneType = tunableType.WIND;
     }
 }
 

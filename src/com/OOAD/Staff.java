@@ -82,11 +82,86 @@ class Clerk extends Staff implements Logger {
                 this.placeAnOrder(type);
             }
         }
+        out(this.name + " is tuning items.");
+        boolean success = false;
+        boolean damageChance = false;
+        boolean prevState = false;
+        Iterator<Item> itr = store.inventory.items.iterator();
+        while (itr.hasNext()) {
+            Item item = itr.next();
+            if (item.tunable) {
+                if (tuneodds > Utility.rnd()) {
+                    success = true;
+                }
+                else {
+                    success = false;
+                }
+            }
 
-        if(Utility.rnd()>this.tuneodds){
-
-        }
-        else{
+            if(success){
+                switch(item.tuneType){
+                    case NONE -> {
+                        break;
+                    }
+                    case PLAYERS -> {
+                        ((Players) item).equalized = true;
+                        out(this.name + " successfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                    case STRINGED -> {
+                        ((Stringed) item).tuned = true;
+                        out(this.name + " successfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                    case WIND -> {
+                        ((Wind) item).adjusted = true;
+                        out(this.name + " successfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                }
+                damageChance = false;
+            }
+            else{
+                switch(item.tuneType){
+                    case NONE -> {
+                        break;
+                    }
+                    case PLAYERS -> {
+                        prevState = ((Players) item).equalized;
+                        ((Players) item).equalized = false;
+                        out(this.name + " unsuccessfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                    case STRINGED -> {
+                        prevState = ((Stringed) item).tuned;
+                        ((Stringed) item).tuned = false;
+                        out(this.name + " unsuccessfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                    case WIND -> {
+                        prevState = ((Wind) item).adjusted;
+                        ((Wind) item).adjusted = false;
+                        out(this.name + " unsuccessfully tuned a " + item.itemType.toString().toLowerCase());
+                    }
+                }
+                if (prevState){
+                    damageChance = true;
+                }
+                else{
+                    damageChance = false;
+                }
+            }
+            if(damageChance){
+                if(Utility.rnd()>this.damageChance){
+                    out(this.name + " failed tuning but did not damage the item.");
+                }
+                else{
+                    out(this.name + " damages something while tuning!");
+                    boolean broken = item.damageAnItem(item);
+                    out("A " + item.itemType.toString().toLowerCase() + " has new list price: " + Utility.asDollar(item.listPrice));
+                    if (broken){
+                        out("A " + item.itemType.toString().toLowerCase() + " was broken!");
+                        int index = store.inventory.getIndex(item);
+                        itr.remove();
+                        store.inventory.discardedItems.add(item);
+                    }
+                }
+            }
 
         }
         int count = store.inventory.items.size();
@@ -103,10 +178,17 @@ class Clerk extends Staff implements Logger {
         int arrivalDay = Utility.rndFromRange(1,3);
         // check to see if any are in the arriving queue
         int count = store.inventory.countByType(store.inventory.arrivingItems,type);
+        boolean discontinuedItem = false;
+        for (ItemType typetest: store.inventory.discontinuedItems){
+            if(type == typetest){
+                discontinuedItem = true;
+                break;
+            }
+        }
         if (count>0) {
             out("There is an order coming for " + type.toString().toLowerCase());
         }
-        else {
+        else if (!discontinuedItem){
             // order 3 of the missing items if you have the money to buy them
             int purchased = 0;
             for (int i = 0; i < 3; i++) {
@@ -161,12 +243,35 @@ class Clerk extends Staff implements Logger {
         }
         else {
             // pick one of the types of items from inventory
-            int pickItemIndex = Utility.rndFromRange(1,countInStock);
+            // int pickItemIndex = Utility.rndFromRange(1,countInStock);
             Item item = GetItemFromInventoryByCount(countInStock, type);
             out("Item is "+type.toString().toLowerCase()+" in "+item.condition.toString().toLowerCase()+" condition.");
+            double saleOddsBoost = 0;
+            if(item.tunable){
+                switch(item.tuneType){
+                    case NONE -> {
+                        break;
+                    }
+                    case PLAYERS -> {
+                        if (((Players) item).equalized){
+                            saleOddsBoost = .1;
+                        }
+                    }
+                    case STRINGED -> {
+                        if (((Stringed) item).tuned){
+                            saleOddsBoost = .15;
+                        }
+                    }
+                    case WIND -> {
+                        if (((Wind) item).adjusted){
+                            saleOddsBoost = .2;
+                        }
+                    }
+                }
+            }
             // 50% chance to buy at listPrice
             out (this.name+" selling at "+Utility.asDollar(item.listPrice));
-            if (Utility.rnd()>.5) {
+            if (Utility.rnd()>(.5 - saleOddsBoost)) {
                 sellItemtoCustomer(item, custName);
                 return true;
             }
@@ -175,7 +280,7 @@ class Clerk extends Staff implements Logger {
                 double newListPrice = item.listPrice * .9;
                 out (this.name+" selling at "+Utility.asDollar(newListPrice));
                 // now 75% chance of buy
-                if (Utility.rnd()>.25) {
+                if (Utility.rnd()>(.25 - saleOddsBoost)) {
                     item.listPrice = newListPrice;
                     sellItemtoCustomer(item,custName);
                     return true;
@@ -222,13 +327,26 @@ class Clerk extends Staff implements Logger {
         ItemType type = Utility.randomEnum(ItemType.class);
         out(custName + " wants to sell a "+type.toString().toLowerCase());
         Item item = store.inventory.makeNewItemByType(type);
+
+        boolean discontinuedItem = false;
+        for (ItemType typetest: store.inventory.discontinuedItems){
+            if(type == typetest){
+                discontinuedItem = true;
+                break;
+            }
+        }
+
         // clerk will determine new or used, condition, purchase price (based on condition)
         // we'll take the random isNew, condition from the generated item
         out("Item is "+type.toString().toLowerCase()+" in "+item.condition.toString().toLowerCase()+" condition.");
         item.purchasePrice = getPurchasePriceByCondition(item.condition);
         // seller has 50% chance of selling
         out (this.name+" offers "+Utility.asDollar(item.purchasePrice));
-        if (Utility.rnd()>.5) {
+        if(discontinuedItem){
+            out("The store is no longer accepting " + item.itemType);
+            return false;
+        }
+        else if (Utility.rnd()>.5) {
             buyItemFromCustomer(item, custName);
             return true;
         }
