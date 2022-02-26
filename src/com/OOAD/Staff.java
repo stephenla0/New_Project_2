@@ -273,6 +273,18 @@ class Clerk extends Staff implements Logger {
             out (this.name+" selling at "+Utility.asDollar(item.listPrice));
             if (Utility.rnd()>(.5 - saleOddsBoost)) {
                 sellItemtoCustomer(item, custName);
+                
+                if(item instanceof Stringed)
+                {
+                    if(((Stringed) item).isElectric)
+                    {
+                        AbstractDecoratorSale sale = new GigBagSale(new PracticeAmpSale(new CablesSale(new StringsSales(new Sale()))));
+                    }
+                    else
+                    {
+                        Sale sale = new Sale();
+                    }
+                }
                 return true;
             }
             else {
