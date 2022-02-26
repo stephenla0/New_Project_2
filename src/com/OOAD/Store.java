@@ -24,7 +24,7 @@ public class Store implements ConsoleLogger {
         // initialize the store's staff, observer, and tuning strategy
         observer = new ClerkObserver();
         clerks = new ArrayList<Clerk>();
-        context = new TuneContext(new Manual());
+        context = new TuneContext(new Manual()); //use strategy to make odds and add it in clerk
         tuneresult = context.gettune();
         clerks.add(new Clerk("Velma",.05, this, observer, tuneresult));
         context = new TuneContext(new Haphazard());
@@ -33,12 +33,12 @@ public class Store implements ConsoleLogger {
         context = new TuneContext(new Electronic());
         tuneresult = context.gettune();
         clerks.add(new Clerk("Daphne", .15, this, observer, tuneresult)); //An additional Clerk will be hired – Daphne.
-        tracker = new Tracker();
+        tracker = new Tracker(); //initialize tracker for observer
     }
 
     void openToday(int day) {
         today = day;
-        logger = new Logger(day, tracker);
+        logger = new Logger(day, tracker); //create new tracker each day
         observer.setLogger(logger);
         out("Store opens today, day "+day);
         activeClerk = getValidClerk();
@@ -49,8 +49,8 @@ public class Store implements ConsoleLogger {
         activeClerk.openTheStore();
         activeClerk.cleanTheStore();
         activeClerk.leaveTheStore();
-        logger.publishTracker();
-        logger.close();
+        logger.publishTracker(); //publish current tracker results to logger
+        logger.close(); //close logger
         logger = null;
     }
 
@@ -58,6 +58,7 @@ public class Store implements ConsoleLogger {
         // pick a random clerk
         Clerk clerk = clerks.get(Utility.rndFromRange(0,clerks.size()-1));
         Clerk sickclerk = null;
+        //see if clerk is sick
         if(Utility.rnd()<0.1){
             sickclerk = clerk;
         }
@@ -83,7 +84,7 @@ public class Store implements ConsoleLogger {
                 if (others != clerk) others.daysWorked = 0; // they had a day off, so clear their counter
             }
         }
-
+        // new case: if sick get new eligible clerk and give others a break
         else {
             out(clerk.name+" is sick today and can not work.");
             clerk.daysWorked = 0;
@@ -110,6 +111,7 @@ public class Store implements ConsoleLogger {
         logger = null;
     }
 
+    //for summary
     double getRemainingCashInRegister(){
         return cashRegister;
     }

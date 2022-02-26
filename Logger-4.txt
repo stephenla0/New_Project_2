@@ -1,17 +1,18 @@
 Daphne has arrived at the store.
 0 items have been added to inventory.
-The cash register has $1,839.30
+The cash register has $2,199.96
 3 items were ordered.
-There are 52 items in inventory.
-The total value of the inventory is $1,222.30
+3 items were ordered.
+There are 42 items in inventory.
+The total value of the inventory is $880.60
 0 items were damaged while tuning.
-5 items were sold.
+3 items were sold.
 0 items were purchased.
 2 items were damaged while cleaning.
 Daphne has left the store.
 
 Tracker: Day 4
 Clerk, Items Sold, Items Purchased, Items Damaged
-Velma , 17 , 6 , 1
-Shaggy , 0 , 0 , 0
-Daphne , 5 , 0 , 0
+Velma , 0 , 0 , 0
+Shaggy , 13 , 2 , 2
+Daphne , 14 , 1 , 0

@@ -2,6 +2,8 @@ package com.OOAD;
 
 import java.util.ArrayList;
 
+// Decorator code, partially used from professors example code
+
 // we can make our own custom decorator that takes the original item being sold
 // and lets us add to it
 // in decorator fashion, this should not impact the code for selling undecorated items

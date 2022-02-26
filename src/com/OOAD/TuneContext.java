@@ -1,5 +1,7 @@
 package com.OOAD;
 
+//class for strategy
+
 public class TuneContext{
 	private TuneStrategy strategy;
 

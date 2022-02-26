@@ -1,5 +1,7 @@
 package com.OOAD;
 
+//data structure for tracking clerks
+
 public class TrackerDataStructure {
     String ClerkName;
     int itemsSold;

@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+//logger class documents current information in a new text file each day
+
 public class Logger {
     BufferedWriter text;
     int day;

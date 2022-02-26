@@ -13,8 +13,8 @@ class Clerk extends Staff implements ConsoleLogger {
     int daysWorked;
     double damageChance;    // Velma = .05, Shaggy = .20
     Store store;
-    private PropertyChangeSupport support;
-    double tuneodds;
+    private PropertyChangeSupport support; //how observer is notified of events
+    double tuneodds; //strategy info
 
     Clerk(String name, double damageChance, Store store, PropertyChangeListener pcl, double tuneresult) {
          this.name = name;
@@ -35,7 +35,7 @@ class Clerk extends Staff implements ConsoleLogger {
     }
 
     void arriveAtStore() {
-        support.firePropertyChange("arriveAtStore_evt_1", null, this.name);
+        support.firePropertyChange("arriveAtStore_evt_1", null, this.name); //notify observer
         out(this.name + " arrives at store.");
         // have to check for any arriving items slated for this day
         out( this.name + " checking for arriving items.");
@@ -309,13 +309,14 @@ class Clerk extends Staff implements ConsoleLogger {
         // when sold - move item to sold items with daySold and salePrice noted
         out ( "updated inventory count: "+store.inventory.items.size());
         if(item instanceof Stringed){
+            //begin trying to sell more with decorators
             out ("Item is stringed, " + this.name + " is attempting to sell accessories.");
             ArrayList<Item> cart = new ArrayList<>();
             cart.add(item);
-            DecoratingItem dItem = new AddGigBag(store.inventory.items, cart, item);
-            dItem = new AddCables(store.inventory.items, cart, item);
-            dItem = new AddStrings(store.inventory.items, cart, item);
-            dItem = new AddPracticeAmps(store.inventory.items, cart, item);
+            DecoratingItem dItem = new AddGigBag(store.inventory.items, cart, item); //decorators
+            dItem = new AddCables(store.inventory.items, cart, item); //decorators
+            dItem = new AddStrings(store.inventory.items, cart, item); //decorators
+            dItem = new AddPracticeAmps(store.inventory.items, cart, item); //decorators
             out(this.name + " selling " + dItem.toString() + "totaling: " + dItem.totalCost());
             for (Item cartItem : dItem.cart) {
                 out("Item " + cartItem.itemType.toString().toLowerCase() + " cost " + cartItem.listPrice);

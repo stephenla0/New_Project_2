@@ -1,6 +1,8 @@
 package com.OOAD;
 import java.util.ArrayList;
 
+//tracker class to track store information
+
 public class Tracker {
     public ArrayList <TrackerDataStructure> clerkStorage;
 

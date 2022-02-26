@@ -1,17 +1,16 @@
 Shaggy has arrived at the store.
-3 items have been added to inventory.
-The cash register has $4,141.76
-3 items were ordered.
-There are 42 items in inventory.
-The total value of the inventory is $972.50
-2 items were damaged while tuning.
+0 items have been added to inventory.
+The cash register has $3,477.76
+There are 44 items in inventory.
+The total value of the inventory is $1,154.10
+5 items were damaged while tuning.
 4 items were sold.
-1 items were purchased.
+0 items were purchased.
 2 items were damaged while cleaning.
 Shaggy has left the store.
 
 Tracker: Day 24
 Clerk, Items Sold, Items Purchased, Items Damaged
-Velma , 40 , 18 , 5
-Shaggy , 23 , 12 , 4
-Daphne , 27 , 10 , 0
+Velma , 12 , 13 , 5
+Shaggy , 33 , 9 , 12
+Daphne , 34 , 12 , 0

@@ -2,6 +2,8 @@ package com.OOAD;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
+//observer class handles all events and documents them in the logger
+
 public class ClerkObserver implements PropertyChangeListener {
     String event;
     Logger logger;
