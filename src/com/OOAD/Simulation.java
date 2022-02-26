@@ -1,4 +1,5 @@
 package com.OOAD;
+import java.util.ArrayList;
 
 // top level object to run the simulation
 public class Simulation implements ConsoleLogger {
@@ -38,6 +39,31 @@ public class Simulation implements ConsoleLogger {
     }
 
     void summary() {
-        out("The summary is left as an exercise to the reader :-)");
+        out("");
+        out("Summary:");
+        out("");
+        out("Items remaining in inventory:");
+        ArrayList<Item> items = store.inventory.getRemainingItems();
+        String s = "";
+        for (Item item:items) s = s + item.itemType.toString().toLowerCase() + " ";
+        out(s);
+        out("");
+        out("Total value of remaining items:");
+        out("" + Utility.asDollar(store.inventory.getRemainingItemsValue()));
+        out("");
+        out("Items sold:");
+        ArrayList<Item> itemsSold = store.inventory.getRemainingItems();
+        String s2 = "";
+        for (Item item2:itemsSold) s2 = s2 + item2.itemType.toString().toLowerCase() + " ";
+        out(s2);
+        out("");
+        out("Total value of sold items:");
+        out("" + Utility.asDollar(store.inventory.getSoldItemsValue()));
+        out("");
+        out("Money left in cash register:");
+        out("" + Utility.asDollar(store.getRemainingCashInRegister()));
+        out("");
+        out("Money added to register from bank:");
+        out("" + Utility.asDollar(store.getTotalMoneyFromBank()));
     }
 }

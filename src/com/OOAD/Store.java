@@ -110,4 +110,12 @@ public class Store implements ConsoleLogger {
         logger = null;
     }
 
+    double getRemainingCashInRegister(){
+        return cashRegister;
+    }
+
+    double getTotalMoneyFromBank(){
+        return cashFromBank;
+    }
+
 }

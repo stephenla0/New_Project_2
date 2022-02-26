@@ -124,4 +124,29 @@ public class Inventory implements ConsoleLogger {
         int index = items.indexOf(item);
         return index;
     }
+
+    ArrayList<Item> getRemainingItems(){
+        return items;
+    }
+
+    double getRemainingItemsValue(){
+        double value = 0;
+        for (Item item: items){
+            value += item.purchasePrice;
+        }
+        return value;
+    }
+
+    ArrayList<Item> getSoldItems(){
+        return items;
+    }
+
+    double getSoldItemsValue(){
+        double value = 0;
+        for (Item item: soldItems){
+            value += item.salePrice;
+        }
+        return value;
+    }
+
 }
