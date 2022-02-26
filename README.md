@@ -20,3 +20,8 @@ Observer: ClerkObserver.java, Tracker.java, TrackerDataStructure.java, Logger.ja
 <br>
 Decorator: DecoratoratingItem.java
 </p>
+
+<p>
+link to UML made in program that isnt cut off from images:
+https://app.diagrams.net/#G1W0Es63NpqVYStIPDNlnadkQqWCCDUBc4
+</p>
