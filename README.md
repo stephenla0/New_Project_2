@@ -13,9 +13,9 @@ This was not neccessary, however, it works.
 <p>
 Our Strategys are implemented in multiple files: 
 </br>
-Strategy: TuneContext, TuneStrategy, AbstractTuneStrategy, Haphazard, Manual, Electronic 
+Strategy: TuneContext.java, TuneStrategy.java, AbstractTuneStrategy.java, Haphazard.java, Manual.java, Electronic.java 
 </br>
 Observer: 
 </br>
-Decorator:
+Decorator:Decorator.java
 </p>
