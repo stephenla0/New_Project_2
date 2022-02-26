@@ -17,5 +17,5 @@ Strategy: TuneContext.java, TuneStrategy.java, AbstractTuneStrategy.java, Haphaz
 </br>
 Observer: ClerkObserver.java
 </br>
-Decorator:Decorator.java
+Decorator:DecoratoratingItem.java
 </p>
