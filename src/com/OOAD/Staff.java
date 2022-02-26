@@ -8,7 +8,7 @@ public abstract class Staff{
     String name;    // Velma and Shaggy
 }
 
-class Clerk extends Staff implements Logger {
+class Clerk extends Staff implements ConsoleLogger {
     int daysWorked;
     double damageChance;    // Velma = .05, Shaggy = .20
     Store store;
@@ -152,6 +152,7 @@ class Clerk extends Staff implements Logger {
                 }
                 else{
                     out(this.name + " damages something while tuning!");
+                    store.tracker.updateItemsDamaged(this, 1);
                     boolean broken = item.damageAnItem(item);
                     out("A " + item.itemType.toString().toLowerCase() + " has new list price: " + Utility.asDollar(item.listPrice));
                     if (broken){
@@ -219,6 +220,7 @@ class Clerk extends Staff implements Logger {
             success = this.sellAnItem(i);
             if(success){
                 sold++;
+                store.tracker.updateItemsSold(this, 1);
             }
         }
         support.firePropertyChange("openTheStore_evt_1", null, sold);
@@ -226,6 +228,7 @@ class Clerk extends Staff implements Logger {
             success = this.buyAnItem(i);
             if(success){
                 purchased++;
+                store.tracker.updateItemsPurchased(this, 1);
             }
         }
         support.firePropertyChange("openTheStore_evt_2", null, purchased);
@@ -398,6 +401,7 @@ class Clerk extends Staff implements Logger {
         else {
             support.firePropertyChange("cleanTheStore_evt_1", null, 1);
             out(this.name + " damages something!");
+            store.tracker.updateItemsDamaged(this, 1);
             // reduce the condition for a random item
             // take the item off the main inventory and put it on the broken items ArrayList
             // left as an exercise to the reader :-)

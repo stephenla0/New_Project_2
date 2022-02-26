@@ -1,7 +1,7 @@
 package com.OOAD;
 
 // top level object to run the simulation
-public class Simulation implements Logger {
+public class Simulation implements ConsoleLogger {
     Store store;
     int dayCounter;
     Weekday weekDay;

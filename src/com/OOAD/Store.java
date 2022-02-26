@@ -1,7 +1,7 @@
 package com.OOAD;
 import java.util.ArrayList;
 
-public class Store implements Logger {
+public class Store implements ConsoleLogger {
     public ArrayList<Clerk> clerks;
     public Clerk activeClerk;
     public double cashRegister;
@@ -11,6 +11,8 @@ public class Store implements Logger {
     ClerkObserver observer;
     TuneContext context;
     double tuneresult;
+    Tracker tracker;
+    Logger logger;
 
     Store() {
         // initialize the store's starting inventory
@@ -19,7 +21,7 @@ public class Store implements Logger {
         cashRegister = 0;   // cash register is empty to begin
         cashFromBank = 0;   // no cash from bank yet
 
-        // initialize the store's staff
+        // initialize the store's staff, observer, and tuning strategy
         observer = new ClerkObserver();
         clerks = new ArrayList<Clerk>();
         context = new TuneContext(new Manual());
@@ -31,10 +33,13 @@ public class Store implements Logger {
         context = new TuneContext(new Electronic());
         tuneresult = context.gettune();
         clerks.add(new Clerk("Daphne", .15, this, observer, tuneresult)); //An additional Clerk will be hired – Daphne.
+        tracker = new Tracker();
     }
 
     void openToday(int day) {
         today = day;
+        logger = new Logger(day);
+        observer.setLogger(logger);
         out("Store opens today, day "+day);
         activeClerk = getValidClerk();
         out(activeClerk.name + " is working today.");
@@ -44,6 +49,8 @@ public class Store implements Logger {
         activeClerk.openTheStore();
         activeClerk.cleanTheStore();
         activeClerk.leaveTheStore();
+        logger.close();
+        logger = null;
     }
 
     Clerk getValidClerk() {
@@ -93,7 +100,12 @@ public class Store implements Logger {
     }
 
     void closedToday(int day) {
+        logger = new Logger(day);
+        observer.setLogger(logger);
         out("Store is closed today, day "+day);
+        logger.write("Store is closed today, day "+day);
+        logger.close();
+        logger = null;
     }
 
 }
