@@ -15,7 +15,7 @@ Our Strategys are implemented in multiple files:
 </br>
 Strategy: TuneContext.java, TuneStrategy.java, AbstractTuneStrategy.java, Haphazard.java, Manual.java, Electronic.java 
 </br>
-Observer: 
+Observer: ClerkObserver.java
 </br>
 Decorator:Decorator.java
 </p>
