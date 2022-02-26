@@ -86,6 +86,7 @@ class Clerk extends Staff implements ConsoleLogger {
         boolean success = false;
         boolean damageChance = false;
         boolean prevState = false;
+        int tunedmgcount = 0;
         Iterator<Item> itr = store.inventory.items.iterator();
         while (itr.hasNext()) {
             Item item = itr.next();
@@ -152,6 +153,7 @@ class Clerk extends Staff implements ConsoleLogger {
                 }
                 else{
                     out(this.name + " damages something while tuning!");
+                    tunedmgcount++;
                     store.tracker.updateItemsDamaged(this, 1);
                     boolean broken = item.damageAnItem(item);
                     out("A " + item.itemType.toString().toLowerCase() + " has new list price: " + Utility.asDollar(item.listPrice));
@@ -169,6 +171,7 @@ class Clerk extends Staff implements ConsoleLogger {
         double worth = store.inventory.getValue(store.inventory.items);
         support.firePropertyChange("doInventory_evt_1", null, count);
         support.firePropertyChange("doInventory_evt_2", null, Utility.asDollar(worth));
+        support.firePropertyChange("doInventory_evt_3", null, tunedmgcount);
         out(this.name + " finds " + count + " items in store, worth "+Utility.asDollar(worth));
     }
 
@@ -281,11 +284,11 @@ class Clerk extends Staff implements ConsoleLogger {
                 {
                     if(((Stringed) item).isElectric)
                     {
-                        AbstractDecoratorSale sale = new GigBagSale(new PracticeAmpSale(new CablesSale(new StringsSales(new Sale()))));
+                        //AbstractDecoratorSale sale = new GigBagSale(new PracticeAmpSale(new CablesSale(new StringsSales(new Sale()))));
                     }
                     else
                     {
-                        Sale sale = new Sale();
+                        //Sale sale = new Sale();
                     }
                 }
                 return true;

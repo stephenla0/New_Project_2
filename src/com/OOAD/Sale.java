@@ -1,6 +1,6 @@
 package com.OOAD;
 //Concrete class used
-public class Sale implements Decorator{
+/*public class Sale implements Decorator{
 
     @Override
     public double sales(){
@@ -14,4 +14,4 @@ public class Sale implements Decorator{
     }
 
 
-}
+}*/

@@ -20,34 +20,34 @@ public class ClerkObserver implements PropertyChangeListener {
                 logger.write(evt.getNewValue()+" items have been added to inventory.");
             }
             case "checkRegister_evt_1" -> {
-                logger.write(evt.getNewValue()+" items have been added to inventory.");
+                logger.write("The cash register has " + evt.getNewValue());
             }
             case "goToBank_evt_1" -> {
-                //System.out.println("4");
+                logger.write("The cash register has " + evt.getNewValue() + " after going to the bank.");
             }
             case "doInventory_evt_1" -> {
-                //System.out.println("5");
+                logger.write("There are " + evt.getNewValue() + " items in inventory.");
             }
             case "doInventory_evt_2" -> {
-                //System.out.println("6");
+                logger.write("The total value of the inventory is " + evt.getNewValue());
             }
             case "doInventory_evt_3" -> {
-                //System.out.println("7");
+                logger.write(evt.getNewValue() + " items were damaged while tuning.");
             }
             case "placeAnOrder_evt_1" -> {
-                //System.out.println("8");
+                logger.write(evt.getNewValue() + " items were ordered.");
             }
             case "openTheStore_evt_1" -> {
-                //System.out.println("9");
+                logger.write(evt.getNewValue() + " items were sold.");
             }
             case "openTheStore_evt_2" -> {
-                //System.out.println("10");
+                logger.write(evt.getNewValue() + " items were purchased.");
             }
             case "cleanTheStore_evt_1" -> {
-                //System.out.println("11");
+                logger.write(evt.getNewValue() + " items were damaged while cleaning.");
             }
             case "leaveTheStore_evt_1" -> {
-                //System.out.println("12");
+                logger.write(evt.getNewValue()+" has left the store.");
             }
 
         }

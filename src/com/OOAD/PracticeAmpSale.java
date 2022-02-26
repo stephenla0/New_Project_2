@@ -1,6 +1,6 @@
 package com.OOAD;
 //Concrete Class that extends Abstract and will actually be called to modify sales
-public class PracticeAmpSale extends AbstractDecoratorSale
+/*public class PracticeAmpSale extends AbstractDecoratorSale
 {
     public PracticeAmpSale (Decorator decorator)
     {
@@ -28,4 +28,4 @@ public class PracticeAmpSale extends AbstractDecoratorSale
     {
         return 1;
     }
-}
+}*/

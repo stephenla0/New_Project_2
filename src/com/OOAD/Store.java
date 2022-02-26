@@ -38,7 +38,7 @@ public class Store implements ConsoleLogger {
 
     void openToday(int day) {
         today = day;
-        logger = new Logger(day);
+        logger = new Logger(day, tracker);
         observer.setLogger(logger);
         out("Store opens today, day "+day);
         activeClerk = getValidClerk();
@@ -49,6 +49,7 @@ public class Store implements ConsoleLogger {
         activeClerk.openTheStore();
         activeClerk.cleanTheStore();
         activeClerk.leaveTheStore();
+        logger.publishTracker();
         logger.close();
         logger = null;
     }
@@ -100,10 +101,11 @@ public class Store implements ConsoleLogger {
     }
 
     void closedToday(int day) {
-        logger = new Logger(day);
+        logger = new Logger(day, tracker);
         observer.setLogger(logger);
         out("Store is closed today, day "+day);
         logger.write("Store is closed today, day "+day);
+        logger.publishTracker();
         logger.close();
         logger = null;
     }
