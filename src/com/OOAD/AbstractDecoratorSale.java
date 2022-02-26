@@ -9,10 +9,16 @@ public abstract class AbstractDecoratorSale implements Decorator
         this.decorator = decorator;
     }
 
-    public void sales(){decorator.sales();}
+    public double sales()
+    {
+        return decorator.sales();
+    }
 
+    public int quantity()
+    {
+        return decorator.quantity();
+    }
 }
-
 
 
 
