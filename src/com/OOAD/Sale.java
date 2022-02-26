@@ -1,10 +1,17 @@
 package com.OOAD;
-
+//Concrete class used
 public class Sale implements Decorator{
 
     @Override
-    public void sales(){
-        System.out.println("Hello String Sale");
+    public double sales(){
+        return 0.1;
+
     }
+
+    public int quantity()
+    {
+        return 1;
+    }
+
 
 }
