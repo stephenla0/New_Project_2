@@ -1,0 +1,7 @@
+Store is closed today, day 21
+
+Tracker: Day 21
+Clerk, Items Sold, Items Purchased, Items Damaged
+Velma , 25 , 8 , 4
+Shaggy , 17 , 6 , 2
+Daphne , 44 , 20 , 1

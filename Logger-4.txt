@@ -1,0 +1,16 @@
+Velma has arrived at the store.
+0 items have been added to inventory.
+The cash register has $1,810.10
+There are 55 items in inventory.
+The total value of the inventory is $1,445.00
+0 items were damaged while tuning.
+4 items were sold.
+2 items were purchased.
+2 items were damaged while cleaning.
+Velma has left the store.
+
+Tracker: Day 4
+Clerk, Items Sold, Items Purchased, Items Damaged
+Velma , 4 , 2 , 0
+Shaggy , 0 , 0 , 0
+Daphne , 17 , 7 , 1
