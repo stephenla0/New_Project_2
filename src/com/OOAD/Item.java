@@ -1,5 +1,7 @@
 package com.OOAD;
 
+import java.util.ArrayList;
+
 public abstract class Item implements ConsoleLogger {
     String name;            // I didn't implement a naming scheme - mostly ignoring this - how would you?
     double purchasePrice;   // $1 to $50
@@ -37,6 +39,13 @@ public abstract class Item implements ConsoleLogger {
         daySold = 0;
         tunable = false;
         tuneType = tunableType.NONE;
+    }
+
+    public static Item FindItemToAdd(ArrayList<Item> list, ItemType itemType) {
+        for (Item item: list) {
+            if (item.itemType == itemType) return item;
+        }
+        return null;
     }
 }
 

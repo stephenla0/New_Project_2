@@ -2,6 +2,6 @@ Store is closed today, day 7
 
 Tracker: Day 7
 Clerk, Items Sold, Items Purchased, Items Damaged
-Velma , 8 , 5 , 1
-Shaggy , 0 , 0 , 0
-Daphne , 22 , 8 , 1
+Velma , 22 , 10 , 4
+Shaggy , 3 , 0 , 1
+Daphne , 8 , 6 , 0

@@ -1,5 +1,6 @@
 package com.OOAD;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
@@ -279,18 +280,6 @@ class Clerk extends Staff implements ConsoleLogger {
             out (this.name+" selling at "+Utility.asDollar(item.listPrice));
             if (Utility.rnd()>(.5 - saleOddsBoost)) {
                 sellItemtoCustomer(item, custName);
-                
-                if(item instanceof Stringed)
-                {
-                    if(((Stringed) item).isElectric)
-                    {
-                        //AbstractDecoratorSale sale = new GigBagSale(new PracticeAmpSale(new CablesSale(new StringsSales(new Sale()))));
-                    }
-                    else
-                    {
-                        //Sale sale = new Sale();
-                    }
-                }
                 return true;
             }
             else {
@@ -313,18 +302,43 @@ class Clerk extends Staff implements ConsoleLogger {
 
     // things we need to do when an item is sold
     void sellItemtoCustomer(Item item,String custName) {
+        int additionalItems = 0;
         String itemName = item.itemType.toString().toLowerCase();
         String price = Utility.asDollar(item.listPrice);
         out (this.name + " is selling "+ itemName + " for " + price +" to "+custName);
         // when sold - move item to sold items with daySold and salePrice noted
-        out ( "inventory count: "+store.inventory.items.size());
-        store.inventory.items.remove(item);
-        out ( "inventory count: "+store.inventory.items.size());
-        item.salePrice = item.listPrice;
-        item.daySold = store.today;
-        store.inventory.soldItems.add(item);
-        // money for item goes to register
-        store.cashRegister += item.listPrice;
+        out ( "updated inventory count: "+store.inventory.items.size());
+        if(item instanceof Stringed){
+            out ("Item is stringed, " + this.name + " is attempting to sell accessories.");
+            ArrayList<Item> cart = new ArrayList<>();
+            cart.add(item);
+            DecoratingItem dItem = new AddGigBag(store.inventory.items, cart, item);
+            dItem = new AddCables(store.inventory.items, cart, item);
+            dItem = new AddStrings(store.inventory.items, cart, item);
+            dItem = new AddPracticeAmps(store.inventory.items, cart, item);
+            out(this.name + " selling " + dItem.toString() + "totaling: " + dItem.totalCost());
+            for (Item cartItem : dItem.cart) {
+                out("Item " + cartItem.itemType.toString().toLowerCase() + " cost " + cartItem.listPrice);
+            }
+            additionalItems = cart.size() - 1;
+            store.tracker.updateItemsSold(this, additionalItems);
+            support.firePropertyChange("openTheStore_evt_1_addition", null, additionalItems);
+            for (Item removeItem: dItem.cart){
+                store.inventory.items.remove(removeItem);
+                removeItem.salePrice = removeItem.listPrice;
+                removeItem.daySold = store.today;
+                store.inventory.soldItems.add(removeItem);
+                store.cashRegister += removeItem.listPrice;
+            }
+        }
+        else{
+            store.inventory.items.remove(item);
+            item.salePrice = item.listPrice;
+            item.daySold = store.today;
+            store.inventory.soldItems.add(item);
+            // money for item goes to register
+            store.cashRegister += item.listPrice;
+        }
     }
 
     // find a selecyted item of a certain type from the items

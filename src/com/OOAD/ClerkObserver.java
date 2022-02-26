@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 public class ClerkObserver implements PropertyChangeListener {
     String event;
     Logger logger;
+    int additionalItems;
 
     public void setLogger(Logger logger){
         this.logger = logger;
@@ -38,7 +39,11 @@ public class ClerkObserver implements PropertyChangeListener {
                 logger.write(evt.getNewValue() + " items were ordered.");
             }
             case "openTheStore_evt_1" -> {
-                logger.write(evt.getNewValue() + " items were sold.");
+                logger.write(((int)evt.getNewValue() + additionalItems) + " items were sold.");
+                this.additionalItems = 0;
+            }
+            case "openTheStore_evt_1_addition" -> {
+                this.additionalItems += (int)evt.getNewValue();
             }
             case "openTheStore_evt_2" -> {
                 logger.write(evt.getNewValue() + " items were purchased.");
