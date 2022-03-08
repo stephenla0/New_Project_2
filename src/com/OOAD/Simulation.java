@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 // top level object to run the simulation
 public class Simulation implements ConsoleLogger {
-    Store store;
+    Store north_store;
+    Store south_store;
     int dayCounter;
     Weekday weekDay;
 
@@ -21,7 +22,8 @@ public class Simulation implements ConsoleLogger {
     Simulation() {
         weekDay = Weekday.MONDAY;   //set the starting day
         dayCounter = 0;
-        store = new Store();
+        north_store = new Store();
+        south_store = new Store();
     }
 
     void startSim(int days) {
@@ -33,8 +35,14 @@ public class Simulation implements ConsoleLogger {
     }
 
     void startDay(int day) {
-        if (weekDay == Weekday.SUNDAY) store.closedToday(day);
-        else store.openToday(day);
+        if (weekDay == Weekday.SUNDAY) {
+            north_store.closedToday(day);
+            south_store.closedToday(day);
+        }
+        else {
+            north_store.openToday(day);
+            south_store.openToday(day);
+        }
         weekDay = weekDay.next();
     }
 
@@ -43,27 +51,28 @@ public class Simulation implements ConsoleLogger {
         out("Summary:");
         out("");
         out("Items remaining in inventory:");
-        ArrayList<Item> items = store.inventory.getRemainingItems();
+        ArrayList<Item> items_north = north_store.inventory.getRemainingItems();
+        ArrayList<Item> items_south = south_store.inventory.getRemainingItems();
         String s = "";
-        for (Item item:items) s = s + item.itemType.toString().toLowerCase() + " ";
+        for (Item item:items_north) s = s + item.itemType.toString().toLowerCase() + " ";
         out(s);
         out("");
         out("Total value of remaining items:");
-        out("" + Utility.asDollar(store.inventory.getRemainingItemsValue()));
+        out("" + Utility.asDollar(north_store.inventory.getRemainingItemsValue()));
         out("");
         out("Items sold:");
-        ArrayList<Item> itemsSold = store.inventory.getRemainingItems();
+        ArrayList<Item> itemsSold = north_store.inventory.getRemainingItems();
         String s2 = "";
         for (Item item2:itemsSold) s2 = s2 + item2.itemType.toString().toLowerCase() + " ";
         out(s2);
         out("");
         out("Total value of sold items:");
-        out("" + Utility.asDollar(store.inventory.getSoldItemsValue()));
+        out("" + Utility.asDollar(north_store.inventory.getSoldItemsValue()));
         out("");
         out("Money left in cash register:");
-        out("" + Utility.asDollar(store.getRemainingCashInRegister()));
+        out("" + Utility.asDollar(north_store.getRemainingCashInRegister()));
         out("");
         out("Money added to register from bank:");
-        out("" + Utility.asDollar(store.getTotalMoneyFromBank()));
+        out("" + Utility.asDollar(north_store.getTotalMoneyFromBank()));
     }
 }
