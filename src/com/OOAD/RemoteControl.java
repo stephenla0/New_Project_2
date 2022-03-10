@@ -1,22 +1,24 @@
 package com.OOAD;
+import java.util.ArrayList;
+import java.util.List;
 //This is remote controls
 public class RemoteControl
 {
-    Command onOrders[]; //uses interface
-    Command offOrders[]; //uses interface
+    private List<Command> orderList = new ArrayList<Command>();
     public void Order() {}
 
-    public void setCommand(int slot, Command onOrder, Command offOrder) //for lambda expressions
+    public void setCommand(int slot, Command order) //for lambda expressions
     {
-        onOrders[slot] = onOrder;
-        offOrders[slot] = offOrder;
+       orderList.add(order);
     }
+    //tutorialspoint.com/design_pattern/command_pattern.htm
     public void giveOrder() {  //"button was pressed"
         System.out.println("Order has been given");
-        for(int i = 0; i < onOrders.length; i++)
+        for(Command order : orderList)
         {
-            onOrders[i].Execute();
+            order.Execute();
         }
+        orderList.clear();
 
     }
 }

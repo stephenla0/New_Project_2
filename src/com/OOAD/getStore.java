@@ -1,10 +1,10 @@
 package com.OOAD;
 
-public class OrderOnCommand implements Command {
+public class getStore implements Command {
     Order order;  //reference to the command Receiver
 
     // constructor – sets the specific order to command
-    public OrderOnCommand(Order order) {
+    public getStore(Order order) {
         this.order = order;
     }
 
@@ -14,7 +14,7 @@ public class OrderOnCommand implements Command {
     // override for execute with specifically what action the light needs to do
     @Override
     public void Execute() {
-        order.giveOrder();
+        order.getStore();
     }
 }
 

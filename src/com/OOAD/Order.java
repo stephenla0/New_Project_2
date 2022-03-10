@@ -1,6 +1,6 @@
 package com.OOAD;
 
-//different options client will have to use and its command classes
+//REQUEST CLASS
 public class Order
 {
     public void getStore()
