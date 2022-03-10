@@ -1,9 +1,9 @@
 package com.OOAD;
 
-public abstract class OrderOnCommand implements Command {
+public class OrderOnCommand implements Command {
     Order order;  //reference to the command Receiver
 
-    // constructor – sets the specific light to command
+    // constructor – sets the specific order to command
     public OrderOnCommand(Order order) {
         this.order = order;
     }
