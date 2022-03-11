@@ -303,6 +303,16 @@ class Covers extends GuitarKit
         kitType = KitType.COVERS;
     }
 }
+
+class Neck extends GuitarKit
+{
+    Neck()
+    {
+        super();
+        kitType = KitType.NECK;
+    }
+}
+
 class PickGuard extends GuitarKit{
     PickGuard()
     {
