@@ -1,6 +1,8 @@
 package com.OOAD;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Item implements ConsoleLogger {
     String name;            // I didn't implement a naming scheme - mostly ignoring this - how would you?
@@ -270,3 +272,19 @@ class Strings extends Accessories {
         itemType = ItemType.STRINGS;
     }
 }
+
+class GuitarKit extends Item
+{
+//    GuitarKit(KitType gear)
+//    {
+//
+//    }
+
+}
+
+class Bridge extends GuitarKit { }
+class KnobSet extends GuitarKit{}
+class Covers extends GuitarKit{}
+class PickGuard extends GuitarKit{}
+class Pickups extends GuitarKit{}
+
