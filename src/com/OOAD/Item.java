@@ -14,6 +14,7 @@ public abstract class Item implements ConsoleLogger {
     double salePrice;       // set when sold
     int daySold;            // set when sold
     ItemType itemType;      // set by subclass constructors
+    KitType kitType;
     int currentIndexForDeletion;
     boolean tunable;
     tunableType tuneType;
@@ -275,16 +276,45 @@ class Strings extends Accessories {
 
 class GuitarKit extends Item
 {
-//    GuitarKit(KitType gear)
-//    {
-//
-//    }
 
 }
 
-class Bridge extends GuitarKit { }
-class KnobSet extends GuitarKit{}
-class Covers extends GuitarKit{}
-class PickGuard extends GuitarKit{}
-class Pickups extends GuitarKit{}
+class Bridge extends GuitarKit
+{
+    Bridge()
+    {
+        super();
+        kitType = KitType.BRIDGE;
+    }
+}
+class KnobSet extends GuitarKit
+{
+    KnobSet()
+    {
+        super();
+        kitType = KitType.KNOBSET;
+    }
+}
+class Covers extends GuitarKit
+{
+    Covers()
+    {
+        super();
+        kitType = KitType.COVERS;
+    }
+}
+class PickGuard extends GuitarKit{
+    PickGuard()
+    {
+        super();
+        kitType = KitType.PICKGAURD;
+    }
+}
+class Pickups extends GuitarKit{
+    Pickups()
+    {
+        super();
+        kitType = KitType.PICKUPS;
+    }
+}
 
